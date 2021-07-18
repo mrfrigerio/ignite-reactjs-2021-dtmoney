@@ -2,7 +2,7 @@ import { Container } from "./styles";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
-import { useTransactions } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 import { useMemo } from "react";
 import { currencyFormatter } from "../../utils/currencyFormatter";
 
@@ -46,7 +46,7 @@ const Summary: React.FC = () => {
           <p>Saídas</p>
           <img src={outcomeImg} alt="outcome" />
         </header>
-        <strong>{currencyFormatter(transactionsBalance.outcome)}</strong>
+        <strong>- {currencyFormatter(transactionsBalance.outcome)}</strong>
       </div>
       <div className="background-highlight">
         <header>

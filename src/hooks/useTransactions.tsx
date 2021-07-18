@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
-import { api } from "./services/api";
+import { api } from "../services/api";
 
 type Transaction = {
   id: string;
@@ -13,7 +13,7 @@ type Transaction = {
 
 interface TransactionsContextProps {
   transactions: Transaction[];
-  addTransaction: (data: Omit<Transaction, "id">) => void;
+  addTransaction: (data: Omit<Transaction, "id">) => Promise<void>;
 }
 
 const TransactionsContext = createContext<TransactionsContextProps>(
@@ -44,9 +44,6 @@ const TransactionsProvider: React.FC = ({ children }) => {
 
 const useTransactions = (): TransactionsContextProps => {
   const transactionsContext = useContext(TransactionsContext);
-  if (!transactionsContext) {
-    throw new Error("useTransactions must be within a TransactionsProvider");
-  }
   return transactionsContext;
 };
 

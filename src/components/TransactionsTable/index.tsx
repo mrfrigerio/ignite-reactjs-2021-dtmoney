@@ -2,17 +2,8 @@ import { createServer, Model } from "miragejs";
 import { Container } from "./styles";
 import { currencyFormatter } from "../../utils/currencyFormatter";
 import { dateformatter } from "../../utils/dateFormatter";
-import { useTransactions } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 import { v4 } from "uuid";
-
-type Transaction = {
-  id: string;
-  title: string;
-  value: number;
-  type: "deposit" | "withdraw";
-  category: string;
-  date: Date;
-};
 
 createServer({
   models: {

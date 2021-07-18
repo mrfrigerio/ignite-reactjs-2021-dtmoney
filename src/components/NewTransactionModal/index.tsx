@@ -3,9 +3,9 @@ import { Container, TransactionTypeContainer } from "./styles";
 import closeImg from "../../assets/close.svg";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { api } from "../../services/api";
-import { useTransactions } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 
 Modal.setAppElement("#root");
 
@@ -24,8 +24,9 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   const [title, setTitle] = useState<string>("");
   const [value, setValue] = useState<number>(0);
   const [category, setCategory] = useState<string>("");
+  const titleRef = useRef<HTMLInputElement>(null);
 
-  const { transactions, addTransaction } = useTransactions();
+  const { addTransaction } = useTransactions();
 
   function handleSetTransaction(type: TransactionType) {
     setType(type);
@@ -43,7 +44,14 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
       date: new Date(),
     };
 
-    addTransaction(data);
+    await addTransaction(data);
+    setType("deposit");
+    setTitle("");
+    setValue(0);
+    setCategory("");
+
+    const titleInput = titleRef.current;
+    titleInput && titleInput.focus();
   }
 
   return (
@@ -63,6 +71,7 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
           type="text"
           placeholder="Título"
           value={title}
+          ref={titleRef}
           onChange={(event) => setTitle(event.target.value)}
         />
         <input
